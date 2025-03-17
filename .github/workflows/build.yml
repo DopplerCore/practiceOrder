@@ -13,19 +13,23 @@ jobs:
       - name: Install TeXLive and fonts
         run: |
           sudo apt update
-          sudo apt-get install -y texlive-full
+          sudo apt-get install -y texlive-xetex
           sudo apt-get install -y texlive-lang-cyrillic
           sudo apt-get install -y texlive-fonts-recommended texlive-fonts-extra
-          sudo apt-get install -y cm-super
           sudo apt-get install -y fonts-freefont-ttf
           sudo apt-get install -y ttf-mscorefonts-installer
+          sudo apt-get install -y texlive-latex-base
+          sudo apt-get install -y texlive-latex-extra
+          sudo apt-get install -y texlive-latex-recommended
+          sudo apt-get install -y latexmk
           sudo fc-cache -f -v
 
-      - name: Build PDF
+      - name: Create output directory
+        run: mkdir -p out
+
+      - name: Build PDF with XeLaTeX
         run: |
-          mkdir -p out
-          pdflatex -interaction=nonstopmode -output-directory=out practice_report.tex
-          pdflatex -interaction=nonstopmode -output-directory=out practice_report.tex
+          xelatex -synctex=1 -interaction=nonstopmode -output-directory=out practice_report.tex
 
       - uses: actions/upload-artifact@v4
         with:
