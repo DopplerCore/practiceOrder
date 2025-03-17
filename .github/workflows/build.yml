@@ -10,22 +10,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install TeXLive
+      - name: Install TeXLive and fonts
         run: |
           sudo apt update
           sudo apt-get install -y texlive-full
-          sudo apt-get install -y latexmk
           sudo apt-get install -y texlive-lang-cyrillic
-          sudo apt-get install -y cm-super
           sudo apt-get install -y texlive-fonts-recommended texlive-fonts-extra
           sudo apt-get install -y texlive-xetex
           sudo apt-get install -y fonts-freefont-ttf
           sudo apt-get install -y ttf-mscorefonts-installer
-          sudo fc-cache -fv
+          sudo apt-get install -y fonts-cmu
+          sudo apt-get install -y fonts-liberation
+          sudo fc-cache -f -v
 
       - name: Build PDF
         run: |
-          latexmk -xelatex -synctex=1 -outdir=out -interaction=nonstopmode -file-line-error --shell-escape practice_report.tex
+          mkdir -p out
+          xelatex -synctex=1 -interaction=nonstopmode -output-directory=out practice_report.tex
 
       - uses: actions/upload-artifact@v4
         with:
