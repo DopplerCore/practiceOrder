@@ -10,11 +10,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install texlive
+      - name: Install TeXLive
         run: |
-          sudo sudo apt update
-          sudo apt-get install -y cm-super      # Fonts.
-          sudo apt -y install make texlive latexmk texlive-lang-cyrillic texlive-science texlive-latex-extra ttf-mscorefonts-installer texlive-bibtex-extra biber
+          sudo apt update
+          sudo apt-get install -y texlive-full
+          sudo apt-get install -y latexmk
+          sudo apt-get install -y texlive-lang-cyrillic
+          sudo apt-get install -y cm-super
+          sudo apt-get install -y texlive-fonts-recommended texlive-fonts-extra
+          sudo apt-get install -y texlive-xetex
+          sudo apt-get install -y fonts-freefont-ttf
+          sudo apt-get install -y ttf-mscorefonts-installer
           sudo fc-cache -fv
 
       - name: Build PDF
@@ -25,4 +31,3 @@ jobs:
         with:
           name: practice_report.pdf
           path: out/practice_report.pdf
-    
